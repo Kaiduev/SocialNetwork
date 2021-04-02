@@ -1,0 +1,19 @@
+.idea
+
+# Virtual Enviroments
+env
+
+# SECRET KEYS
+.env
+
+# staticfiles
+static
+media
+
+# pycahce
+busket_project/__pycache__
+__pycache__/
+
+# database
+db.sqlite3
+
