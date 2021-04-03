@@ -11,7 +11,10 @@ class FanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'bio')
+        fields = ('id', 'email',
+                  'first_name', 'last_name',
+                  'bio', 'last_login',
+                  'last_visit')
 
 
 class PostSerializer(serializers.ModelSerializer):

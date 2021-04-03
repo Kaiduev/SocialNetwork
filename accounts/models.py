@@ -25,6 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
                                    help_text='Designates whether the user can log into this admin site.',
                                    verbose_name='Is staff')
     date_joined = models.DateTimeField(auto_now_add=True, verbose_name='Registration date')
+    last_visit = models.DateTimeField(blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

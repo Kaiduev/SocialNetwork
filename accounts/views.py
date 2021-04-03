@@ -1,10 +1,12 @@
 import jwt
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import update_last_login
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from rest_framework import generics, permissions, status
 from rest_framework.response import Response
+from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
@@ -54,3 +56,14 @@ class VerifyEmail(generics.GenericAPIView):
 class TokenAPIView(TokenObtainPairView):
     serializer_class = TokenSerializer
     permission_classes = (permissions.AllowAny, )
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+            user = User.objects.get(email=request.data['email'])
+            update_last_login(None, user)
+        except TokenError as e:
+            raise InvalidToken(e.args[0])
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
