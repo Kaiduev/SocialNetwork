@@ -16,6 +16,7 @@ class FanSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     is_fan = serializers.SerializerMethodField()
+    author = serializers.CharField(required=False)
 
     class Meta:
         model = Post
