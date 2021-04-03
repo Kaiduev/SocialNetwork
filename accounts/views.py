@@ -15,7 +15,6 @@ User = get_user_model()
 
 
 class RegisterAPIView(generics.GenericAPIView):
-
     serializer_class = RegisterUserSerializer
     permission_classes = (permissions.AllowAny, )
 
@@ -29,7 +28,7 @@ class RegisterAPIView(generics.GenericAPIView):
         token = RefreshToken.for_user(user=user).access_token
         current_site = get_current_site(request=request).domain
         relative_link = reverse('email-verify')
-        absolute_url = 'http://'+current_site+relative_link+"?token=" + str(token)
+        absolute_url = current_site + relative_link + "?token=" + str(token)
         email_body = 'Hi ' + user.first_name + ' Use link below to verify your email\n' + absolute_url
         data = {'email_body': email_body, 'to_email': user.email, 'email_subject': 'Verify your email'}
         Util.send_email(data)
