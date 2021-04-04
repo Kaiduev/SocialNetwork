@@ -4,6 +4,7 @@
 env
 
 # SECRET KEYS
+.env
 
 # staticfiles
 static
