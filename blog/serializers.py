@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from . import services as likes_services
-from .models import Post
+from .models import Post, Like
 
 User = get_user_model()
 
@@ -33,3 +33,12 @@ class PostSerializer(serializers.ModelSerializer):
         """Check if a `request.user` has liked this post (`obj`)"""
         user = self.context.get('request').user
         return likes_services.is_fan(obj, user)
+
+
+class LikeByDaySerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField()
+    likes = serializers.IntegerField()
+
+    class Meta:
+        model = Like
+        fields = ('date', 'likes')
