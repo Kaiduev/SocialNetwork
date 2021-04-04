@@ -36,6 +36,7 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class LikeByDaySerializer(serializers.ModelSerializer):
+    """Serializer for like analytics"""
     date = serializers.DateTimeField()
     likes = serializers.IntegerField()
 
