@@ -54,3 +54,17 @@ class TokenSerializer(TokenObtainPairSerializer):
                 data.update({'time_access': settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME']})
                 data.update({'time_refresh': settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME']})
                 return data
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', )
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('id', 'email', 'first_name', 'last_name', 'birth_date', 'bio', 'last_login', 'last_visit')

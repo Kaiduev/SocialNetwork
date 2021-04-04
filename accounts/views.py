@@ -4,13 +4,13 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .serializers import RegisterUserSerializer, TokenSerializer
+from .serializers import RegisterUserSerializer, TokenSerializer, UserSerializer, UserDetailSerializer
 from .utils import Util
 
 User = get_user_model()
@@ -67,3 +67,14 @@ class TokenAPIView(TokenObtainPairView):
             raise InvalidToken(e.args[0])
 
         return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    permission_classes = (permissions.AllowAny, )
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return UserSerializer
+        elif self.action == 'retrieve':
+            return UserDetailSerializer
